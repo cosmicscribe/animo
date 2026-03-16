@@ -1,0 +1,141 @@
+.about-section {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  place-items: center;
+  position: relative;
+  opacity: 1;
+  height: auto;
+  width: var(--cWidth);
+  margin: auto;
+}
+.about-me {
+  padding: 50px 0px;
+  padding-bottom: 0;
+  width: 500px;
+  max-width: calc(100% - 15px);
+}
+.about-me h3 {
+  font-size: 25px;
+  text-transform: uppercase;
+  letter-spacing: 7px;
+  font-weight: 400;
+  color: var(--accentColor);
+}
+
+.about-me p {
+  font-size: 33px;
+  font-weight: 600;
+  line-height: 36px;
+  letter-spacing: 1px;
+  color: var(--mutedTextColor);
+}
+
+@media only screen and (max-width: 1024px) {
+  .about-section {
+    opacity: 1 !important;
+    transform: none !important;
+    height: auto;
+    padding: 40px 20px;
+    box-sizing: border-box;
+    background-color: var(--backgroundColor);
+    position: relative;
+    z-index: 10;
+  }
+  .about-me {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+  .about-me p {
+    font-size: 20px;
+    line-height: 26px;
+    color: var(--mutedTextColor);
+  }
+  .about-me h3 {
+    font-size: 16px;
+    letter-spacing: 4px;
+  }
+  .about-resume-button {
+    display: flex;  /* show on mobile */
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .about-section {
+    justify-content: center;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .about-me {
+    width: 500px;
+    max-width: calc(100% - 70px);
+    transform: translateY(0%);
+  }
+  .about-section {
+    opacity: 1;
+  }
+}
+@media only screen and (min-width: 1025px) {
+  .about-section {
+    width: var(--cWidth);
+    justify-content: right;
+    max-width: 1920px;
+    height: var(--vh);
+    padding: 0px;
+    opacity: 1;
+  }
+  .about-me {
+    padding: 0px;
+    width: 50%;
+  }
+  .about-me p {
+    font-size: 1.9vw;
+    line-height: 2.3vw;
+  }
+  .about-resume-button {
+    display: none !important; /* hidden on desktop — vertical side button handles it */
+  }
+}
+@media only screen and (min-width: 1950px) {
+  .about-me p {
+    font-size: 2.5rem;
+    line-height: 2.7rem;
+  }
+}
+
+.about-resume-button {
+  display: flex; /* visible on mobile by default; hidden at 1025px+ above */
+  gap: 5px;
+  width: fit-content;
+  text-wrap: nowrap;
+  letter-spacing: 4px;
+  font-size: 15px;
+  line-height: 15px;
+  font-weight: 600;
+  color: #5e5e5e;
+  cursor: pointer;
+  transition: 0.5s;
+  margin-top: 30px;
+  text-decoration: none;
+}
+.about-resume-button:hover {
+  color: var(--textColor);
+}
+.about-resume-button span {
+  color: var(--textColor);
+  font-size: 17px;
+  margin-top: -1px;
+  display: flex;
+  align-items: center;
+}
+
+@media only screen and (min-width: 768px) {
+  .about-resume-button {
+    font-size: 20px;
+    line-height: 20px;
+  }
+  .about-resume-button span {
+    font-size: 23px;
+    margin-top: -1.5px;
+  }
+}

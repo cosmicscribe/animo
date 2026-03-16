@@ -1,0 +1,280 @@
+/* ── Section Layout ─────────────────────────────────────────── */
+.showreel-section {
+  width: 100%;
+  padding: 80px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  background-color: var(--backgroundColor);
+  overflow: hidden;
+}
+
+.showreel-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 60px;
+  position: relative;
+}
+
+/* ── Title ──────────────────────────────────────────────────── */
+.showreel-title {
+  font-family: "Geist", sans-serif;
+  font-size: 70px;
+  font-weight: 500;
+  text-align: center;
+  margin: 0;
+  z-index: 10;
+  letter-spacing: 1px;
+}
+
+.showreel-title span {
+  background: linear-gradient(0deg, #b8900a, var(--textColor));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+body.light-theme .showreel-title span {
+  background: linear-gradient(0deg, var(--accentColor), var(--textColor));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ── Stage = wires + tablet in a row ───────────────────────── */
+.showreel-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 0;
+  perspective: 1200px;          /* Required for rotateX to render in 3D */
+  perspective-origin: center center;
+}
+
+/* ── Charger Side Containers ────────────────────────────────── */
+.charger-side {
+  position: relative;
+  flex: 0 0 480px;
+  height: 260px;
+  display: flex;
+  align-items: center;
+}
+
+.charger-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* ── Wire Paths ─────────────────────────────────────────────── */
+.wire-base {
+  fill: none;
+  stroke: #2a2a2a;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ────────────────────────────────────────────────────────────────
+   NEON PULSE  —  3-layer stack, zero CSS blur = razor-sharp edges
+   Each layer shares the same dasharray/offset so they move in sync
+   ──────────────────────────────────────────────────────────────── */
+
+/* Layer 1 — outer halo: wide, low opacity */
+.wire-outer {
+  fill: none;
+  stroke: var(--accentColor);
+  stroke-width: 8;
+  stroke-linecap: butt;
+  stroke-linejoin: round;
+  stroke-dasharray: 80 440;
+  stroke-dashoffset: 520;
+  opacity: 0.20;
+  animation: chargeLeft 1.8s linear infinite;
+}
+
+/* Layer 2 — mid ring: accent colour, medium opacity */
+.wire-mid {
+  fill: none;
+  stroke: var(--accentColor);
+  stroke-width: 3.5;
+  stroke-linecap: butt;
+  stroke-linejoin: round;
+  stroke-dasharray: 80 440;
+  stroke-dashoffset: 520;
+  opacity: 0.80;
+  animation: chargeLeft 1.8s linear infinite;
+}
+
+/* Layer 3 — core: white-hot, 1.5 px, full opacity — sharpest possible */
+.wire-core,
+.wire-core-right {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 1.5;
+  stroke-linecap: butt;
+  stroke-linejoin: round;
+  stroke-dasharray: 80 440;
+  stroke-dashoffset: 520;
+  opacity: 1;
+  animation: chargeLeft 1.8s linear infinite;
+}
+
+@keyframes chargeLeft {
+  from { stroke-dashoffset: 520; }
+  to   { stroke-dashoffset: 0; }
+}
+
+/* Remove old unused keyframe */
+
+/* ── Connector Plug ─────────────────────────────────────────── */
+.charger-plug {
+  position: absolute;
+  right: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 36px;
+  background: #111;
+  border-radius: 3px;
+  border-right: 4px solid var(--accentColor);
+  box-shadow:
+    6px 0 16px var(--accentColor),
+    0 0 30px rgba(247, 207, 2, 0.3);
+  z-index: 6;
+}
+
+.right-plug {
+  right: unset;
+  left: -8px;
+  border-right: none;
+  border-left: 4px solid var(--accentColor);
+  box-shadow:
+    -6px 0 16px var(--accentColor),
+    0 0 30px rgba(247, 207, 2, 0.3);
+}
+
+/* ── Tablet Mockup ──────────────────────────────────────────── */
+.tablet-mockup-wrapper {
+  flex: 0 0 860px;
+  display: flex;
+  justify-content: center;
+  z-index: 5;
+  will-change: transform, opacity;
+  transform-style: preserve-3d;
+  transform-origin: center bottom; /* Tilt pivots at bottom edge for natural feel */
+}
+
+.tablet-mockup {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #050505;
+  border-radius: 28px;
+  padding: 10px;
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.6),
+    0 0 0 1.5px #1e1e1e,
+    inset 0 0 10px rgba(255, 255, 255, 0.01);
+}
+
+.tablet-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 1);
+}
+
+.vimeo-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.vimeo-wrapper iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Power button on side */
+.tablet-button {
+  position: absolute;
+  right: -5px;
+  top: 30%;
+  width: 3px;
+  height: 50px;
+  background: #2a2a2a;
+  border-radius: 0 3px 3px 0;
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 1400px) {
+  .charger-side {
+    flex: 0 0 320px;
+  }
+  .tablet-mockup-wrapper {
+    flex: 0 0 700px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .charger-side {
+    flex: 0 0 160px;
+  }
+  .tablet-mockup-wrapper {
+    flex: 0 0 540px;
+  }
+  .showreel-title {
+    font-size: 50px;
+  }
+}
+
+@media (max-width: 900px) {
+  .showreel-stage {
+    flex-direction: column;
+    gap: 30px;
+  }
+  .charger-side {
+    display: none;
+  }
+  .tablet-mockup-wrapper {
+    flex: 0 0 100%;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .showreel-section {
+    padding: 60px 0 60px;
+  }
+  .showreel-title {
+    font-size: 40px;
+  }
+  .tablet-mockup {
+    border-radius: 18px;
+    padding: 7px;
+  }
+}
+
+@media (max-width: 600px) {
+  .showreel-section {
+    padding: 40px 0 40px;
+  }
+  .showreel-container {
+    gap: 30px;
+  }
+  .showreel-title {
+    font-size: 34px;
+  }
+}
