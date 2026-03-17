@@ -195,21 +195,26 @@ const MarqueeRow = ({
 
   // Update volume based on activeCardIdx
   useEffect(() => {
-    const setVolume = (iframe: HTMLIFrameElement | null, value: number) => {
+    const setMuteState = (iframe: HTMLIFrameElement | null, muted: boolean) => {
       if (iframe?.contentWindow) {
+        // Vimeo API requires explicitly setting "setVolume" and/or "setMuted"
         iframe.contentWindow.postMessage(
-          JSON.stringify({ method: 'setVolume', value }),
+          JSON.stringify({ method: 'setVolume', value: muted ? 0 : 1 }),
+          '*'
+        );
+        iframe.contentWindow.postMessage(
+          JSON.stringify({ method: 'setMuted', value: muted }),
           '*'
         );
       }
     };
 
     // Mute all first
-    iframeRefs.current.forEach(ref => setVolume(ref, 0));
+    iframeRefs.current.forEach(ref => setMuteState(ref, true));
 
     // Unmute only the active one if not muted
     if (activeCardIdx !== null && !isMuted) {
-      setVolume(iframeRefs.current[activeCardIdx], 1);
+      setMuteState(iframeRefs.current[activeCardIdx], false);
     }
   }, [activeCardIdx, isMuted]);
 
