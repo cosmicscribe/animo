@@ -406,9 +406,10 @@ body.light-theme .work-title > span {
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
-  z-index: 60;
+  z-index: 100; /* High enough to exceed hover shim */
   backdrop-filter: blur(8px);
   transition: all 0.2s ease;
+  pointer-events: auto; /* Ensure it catches clicks explicitly */
 }
 
 .video-mute-btn:hover {

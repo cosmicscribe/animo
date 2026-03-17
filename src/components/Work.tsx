@@ -231,12 +231,18 @@ const MarqueeRow = ({
     // Don't immediately toggle state, wait for touchEnd to see if it was a tap
   };
 
-  const handleTouchEnd = (idx: number) => {
+  const handleTouchEnd = (idx: number, e?: React.TouchEvent) => {
     if (isSwiping.current) return;
     
     if (activeCardIdx === idx) {
-      // If already active, maybe toggle mute or close? 
-      // User says "details not showing", let's make sure it toggles
+      // Don't close immediately if they are trying to tap the mute button
+      // Let the button's own event handler manage its state if needed, but we can just toggle close logic
+      if (e) {
+        const target = e.target as HTMLElement;
+        if (target.closest('.video-mute-btn')) {
+          return; 
+        }
+      }
       setActiveCardIdx(null);
     } else {
       setActiveCardIdx(idx);
@@ -272,7 +278,7 @@ const MarqueeRow = ({
                   onMouseEnter={() => handleCardEnter(idx)}
                   onMouseLeave={handleLeave}
                   onTouchStart={handleTouchStart}
-                  onTouchEnd={() => handleTouchEnd(idx)}
+                  onTouchEnd={(e) => handleTouchEnd(idx, e)}
                 >
                   <div className="marquee-card-inner">
                     <div className="marquee-card-media">
@@ -294,6 +300,10 @@ const MarqueeRow = ({
                                 <button
                                   className="video-mute-btn"
                                   onClick={(e) => {
+                                    e.stopPropagation();
+                                    setIsMuted(!isMuted);
+                                  }}
+                                  onTouchEnd={(e) => {
                                     e.stopPropagation();
                                     setIsMuted(!isMuted);
                                   }}

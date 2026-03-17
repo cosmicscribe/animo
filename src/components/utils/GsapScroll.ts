@@ -208,7 +208,7 @@ export function setAllTimeline() {
       { opacity: 1, y: 0, ease: "none" }
     )
     .fromTo(".tablet-mockup-wrapper",
-      { opacity: 0, y: window.innerWidth > 768 ? 80 : 100, rotateX: window.innerWidth > 768 ? -22 : -35 },
+      { opacity: 0, y: window.innerWidth > 768 ? 80 : 100, rotateX: window.innerWidth > 768 ? -22 : 0 },
       { opacity: 1, y: 0, rotateX: 0, ease: "none" },
       0     // same start as title
     )
@@ -234,7 +234,7 @@ export function setAllTimeline() {
     },
   })
     .to(".tablet-mockup-wrapper", {
-      rotateX: window.innerWidth > 768 ? 28 : 38,
+      rotateX: window.innerWidth > 768 ? 28 : 0,
       opacity: 0.3,
       y: "-12%",
       ease: "none",
