@@ -181,7 +181,7 @@ const MarqueeRow = ({
   duration?: number;
 }) => {
   const [activeCardIdx, setActiveCardIdx] = useState<number | null>(null);
-  const [isMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState(true);
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const touchStartX = useRef<number>(0);
   const touchStartY = useRef<number>(0);
@@ -281,14 +281,28 @@ const MarqueeRow = ({
                           <div className="marquee-card-hover-shim"></div>
                           
                           {project.vimeoUrl ? (
-                            <iframe
-                              ref={(el: HTMLIFrameElement | null) => (iframeRefs.current[idx] = el)}
-                              src={project.vimeoUrl}
-                              frameBorder="0"
-                              allow="autoplay; fullscreen; picture-in-picture; encrypted-media; web-share"
-                              className="marquee-card-vimeo"
-                              title={project.title}
-                            ></iframe>
+                            <div className="vimeo-container">
+                              <iframe
+                                ref={(el: HTMLIFrameElement | null) => (iframeRefs.current[idx] = el)}
+                                src={project.vimeoUrl}
+                                frameBorder="0"
+                                allow="autoplay; fullscreen; picture-in-picture; encrypted-media; web-share"
+                                className="marquee-card-vimeo"
+                                title={project.title}
+                              ></iframe>
+                              {isActive && (
+                                <button
+                                  className="video-mute-btn"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setIsMuted(!isMuted);
+                                  }}
+                                  aria-label={isMuted ? "Unmute video" : "Mute video"}
+                                >
+                                  {isMuted ? "Unmute" : "Mute"}
+                                </button>
+                              )}
+                            </div>
                           ) : (
                           <img
                             src={project.image}

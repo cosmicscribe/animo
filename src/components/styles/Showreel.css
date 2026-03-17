@@ -246,6 +246,7 @@ body.light-theme .showreel-title span {
   .showreel-stage {
     flex-direction: column;
     gap: 30px;
+    perspective: 900px;
   }
   .charger-side {
     display: none;
@@ -258,6 +259,9 @@ body.light-theme .showreel-title span {
 }
 
 @media (max-width: 768px) {
+  .showreel-stage {
+    perspective: 750px;
+  }
   .showreel-section {
     padding: 60px 0 60px;
   }
