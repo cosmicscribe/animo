@@ -170,6 +170,7 @@ body.light-theme .work-title > span {
   flex-shrink: 0;
   cursor: pointer;
   background: transparent;
+  display: flex; /* Ensure it expands to fit the details pane */
   /* Card scale behavior */
   transform: scale(1);
   transform-origin: center center;
@@ -194,8 +195,7 @@ body.light-theme .work-title > span {
   align-items: center; /* keep everything middle aligned */
   background: transparent;
   border-radius: 20px;
-  padding: 12px; /* Set card padding precisely to 12px */
-  margin: -12px; /* Negate padding to keep bounding box same globally */
+  padding: 12px; 
   transition: background 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease;
 }
 
@@ -229,9 +229,11 @@ body.light-theme .work-title > span {
   display: flex;
   gap: 14px;
   padding-right: 18px;
-  /* Slide in left to right horizontally */
-  transform: translateX(-10px);
+  /* Slide in left to right horizontally - since it's now on the right, we slide it from the right or just fade */
+  transform: translateX(10px);
   transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  padding-left: 18px;
+  padding-right: 0;
 }
 
 .marquee-card--active .marquee-card-details-content {
@@ -358,7 +360,19 @@ body.light-theme .work-title > span {
   width: 100%;
   height: 100%;
   display: block;
-  pointer-events: auto; /* Enable interaction for unmuting */
+  pointer-events: none; /* Let the shim handle the hover/clicks for details */
+}
+
+/* Hover Shim to catch all events and prevent iframe stealing */
+.marquee-card-hover-shim {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  cursor: pointer;
+  background: transparent;
 }
 
 /* Label under Thumbnail */
@@ -373,6 +387,35 @@ body.light-theme .work-title > span {
   transition: opacity 0.3s ease;
 }
 
+/* ── Mute Button ── */
+.vimeo-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.video-mute-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  z-index: 60;
+  backdrop-filter: blur(8px);
+  transition: all 0.2s ease;
+}
+
+.video-mute-btn:hover {
+  background: var(--accentColor);
+  color: #000;
+}
+
 /* ═══════════════════════════════════════════════════
    Responsive Fixes
    ═══════════════════════════════════════════════════ */
@@ -383,7 +426,7 @@ body.light-theme .work-title > span {
   .poster-gallery .marquee-card-media { width: 240px; }
   .poster-gallery .marquee-card-img-wrap { height: 257px; }
   .marquee-card--active .marquee-card-details { width: 260px; }
-  .marquee-card-details-content { width: 260px; }
+  .marquee-card-details-content { width: 260px; padding-left: 12px; padding-right: 0; }
 }
 
 @media (max-width: 1025px) {
@@ -402,7 +445,7 @@ body.light-theme .work-title > span {
   .poster-gallery .marquee-card-media { width: 200px; }
   .poster-gallery .marquee-card-img-wrap { height: 215px; }
   .marquee-card--active .marquee-card-details { width: 210px; }
-  .marquee-card-details-content { width: 210px; padding-right: 12px; }
+  .marquee-card-details-content { width: 210px; padding-left: 10px; padding-right: 0; }
 }
 
 /* ── Tablet / Small Desktop ──────────────────────────── */
@@ -465,17 +508,17 @@ body.light-theme .work-title > span {
     filter: blur(1px) brightness(0.65);
   }
 
-  /* Smaller card image on mobile */
+  /* Larger card image on mobile as requested */
   .marquee-card-media {
-    width: 200px;
+    width: 280px;
   }
   
   .poster-gallery .marquee-card-media {
-    width: 180px;
+    width: 240px;
   }
 
   .poster-gallery .marquee-card-img-wrap {
-    height: 193px;
+    height: 257px;
   }
 
   /* Detail panel sizing on mobile */
@@ -483,15 +526,12 @@ body.light-theme .work-title > span {
     width: 175px;
   }
   
-  .poster-gallery.marquee-card--active .marquee-card-details {
-    width: 155px;
-  }
-
   .marquee-card-details-content {
     width: 175px;
     padding-right: 8px;
     flex-direction: column;
     gap: 6px;
+    padding-left: 10px;
   }
 
   .detail-number-box {

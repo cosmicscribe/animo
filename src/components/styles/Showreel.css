@@ -168,6 +168,8 @@ body.light-theme .showreel-title span {
   will-change: transform, opacity;
   transform-style: preserve-3d;
   transform-origin: center bottom; /* Tilt pivots at bottom edge for natural feel */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .tablet-mockup {
@@ -249,8 +251,9 @@ body.light-theme .showreel-title span {
     display: none;
   }
   .tablet-mockup-wrapper {
-    flex: 0 0 100%;
-    width: 100%;
+    flex: 0 0 95%;
+    width: 95%;
+    margin: 0 auto;
   }
 }
 

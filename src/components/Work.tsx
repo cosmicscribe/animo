@@ -181,6 +181,7 @@ const MarqueeRow = ({
   duration?: number;
 }) => {
   const [activeCardIdx, setActiveCardIdx] = useState<number | null>(null);
+  const [isMuted] = useState(true);
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const touchStartX = useRef<number>(0);
   const touchStartY = useRef<number>(0);
@@ -203,14 +204,15 @@ const MarqueeRow = ({
       }
     };
 
-    // Mute all first (to ensure only one is unmuted or none if moving away)
+    // Mute all first
     iframeRefs.current.forEach(ref => setVolume(ref, 0));
 
-    // Unmute only the active one
-    if (activeCardIdx !== null) {
+    // Unmute only the active one if not muted
+    if (activeCardIdx !== null && !isMuted) {
       setVolume(iframeRefs.current[activeCardIdx], 1);
     }
-  }, [activeCardIdx]);
+  }, [activeCardIdx, isMuted]);
+
 
   const handleCardEnter = (idx: number) => {
     if (hideTimer.current) clearTimeout(hideTimer.current);
@@ -218,31 +220,33 @@ const MarqueeRow = ({
   };
 
   const handleLeave = () => {
-    hideTimer.current = setTimeout(() => setActiveCardIdx(null), 80);
+    hideTimer.current = setTimeout(() => setActiveCardIdx(null), 300);
   };
 
-  const handleTouchStart = (idx: number, e: React.TouchEvent) => {
+  const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
     touchStartY.current = e.touches[0].clientY;
     isSwiping.current = false;
-    if (hideTimer.current) clearTimeout(hideTimer.current);
+    
+    // Don't immediately toggle state, wait for touchEnd to see if it was a tap
+  };
+
+  const handleTouchEnd = (idx: number) => {
+    if (isSwiping.current) return;
     
     if (activeCardIdx === idx) {
+      // If already active, maybe toggle mute or close? 
+      // User says "details not showing", let's make sure it toggles
       setActiveCardIdx(null);
     } else {
       setActiveCardIdx(idx);
     }
   };
 
-  const handleTouchMove = (e: React.TouchEvent) => {
-    const touch = e.touches[0];
-    const dx = Math.abs(touch.clientX - touchStartX.current);
-    const dy = Math.abs(touch.clientY - touchStartY.current);
-    if (dx > 8 || dy > 8) {
-      isSwiping.current = true;
-      // Dismiss detail panel while swiping for clean UX
-      if (activeCardIdx !== null) setActiveCardIdx(null);
-    }
+  const handleTouchMove = () => {
+    isSwiping.current = true;
+    // Dismiss detail panel while swiping for clean UX
+    if (activeCardIdx !== null) setActiveCardIdx(null);
   };
 
   return (
@@ -267,9 +271,36 @@ const MarqueeRow = ({
                   className={`marquee-card${isActive ? " marquee-card--active" : ""}`}
                   onMouseEnter={() => handleCardEnter(idx)}
                   onMouseLeave={handleLeave}
-                  onTouchStart={(e) => handleTouchStart(idx, e)}
+                  onTouchStart={handleTouchStart}
+                  onTouchEnd={() => handleTouchEnd(idx)}
                 >
                   <div className="marquee-card-inner">
+                    <div className="marquee-card-media">
+                      <div className="marquee-card-img-wrap">
+                          {/* Hover Shim to prevent iframe from stealing focus/hover */}
+                          <div className="marquee-card-hover-shim"></div>
+                          
+                          {project.vimeoUrl ? (
+                            <iframe
+                              ref={(el: HTMLIFrameElement | null) => (iframeRefs.current[idx] = el)}
+                              src={project.vimeoUrl}
+                              frameBorder="0"
+                              allow="autoplay; fullscreen; picture-in-picture; encrypted-media; web-share"
+                              className="marquee-card-vimeo"
+                              title={project.title}
+                            ></iframe>
+                          ) : (
+                          <img
+                            src={project.image}
+                            alt={project.label}
+                            className="marquee-card-img"
+                            draggable={false}
+                          />
+                        )}
+                      </div>
+                      <div className="marquee-card-label">{project.label}</div>
+                    </div>
+
                     <div className="marquee-card-details">
                       <div className="marquee-card-details-content">
                         <div className="detail-number-box">
@@ -292,29 +323,6 @@ const MarqueeRow = ({
                           </div>
                         </div>
                       </div>
-                    </div>
-
-                    <div className="marquee-card-media">
-                      <div className="marquee-card-img-wrap">
-                          {project.vimeoUrl ? (
-                            <iframe
-                              ref={(el: HTMLIFrameElement | null) => (iframeRefs.current[idx] = el)}
-                              src={project.vimeoUrl}
-                              frameBorder="0"
-                              allow="autoplay; fullscreen; picture-in-picture; encrypted-media; web-share"
-                              className="marquee-card-vimeo"
-                              title={project.title}
-                            ></iframe>
-                          ) : (
-                          <img
-                            src={project.image}
-                            alt={project.label}
-                            className="marquee-card-img"
-                            draggable={false}
-                          />
-                        )}
-                      </div>
-                      <div className="marquee-card-label">{project.label}</div>
                     </div>
                   </div>
                 </div>

@@ -197,8 +197,8 @@ export function setAllTimeline() {
   gsap.timeline({
     scrollTrigger: {
       trigger: ".showreel-section",
-      start: "top 95%",       // begins when section barely enters viewport
-      end: "top 25%",         // completes when section reaches upper area
+      start: window.innerWidth > 768 ? "top 95%" : "top 100%", // begins when section barely enters viewport
+      end: window.innerWidth > 768 ? "top 25%" : "top 40%",   // completes when section reaches upper area
       scrub: 1.2,
       invalidateOnRefresh: true,
     },
