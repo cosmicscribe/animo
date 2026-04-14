@@ -59,7 +59,7 @@ Designed to deliver a visually engaging and smooth browsing experience.
 
 Clone the repository:
 
-git clone https://github.com/your-username/animo.git  
+https://github.com/cosmicscribe/animo.git
 cd animo  
 
 Install dependencies:
@@ -104,7 +104,7 @@ This project is licensed under the MIT License.
 
 ## 📬 Contact
 
-- GitHub: https://github.com/your-username  
+- GitHub: https://github.com/cosmicscribe
 - LinkedIn: https://www.linkedin.com/in/anirban-mondal-728a8224b/  
 - Portfolio: https://animo-bikn.vercel.app/
 
