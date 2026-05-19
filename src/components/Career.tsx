@@ -44,15 +44,16 @@ const Career = () => {
             <div className="career-info-in">
               <div className="career-role">
                 <h4>Video Editor & Motion Graphics Designer</h4>
-                <h5>Ncrypt Media</h5>
+                <h5>Superkreatives</h5>
               </div>
               <h3>NOW</h3>
             </div>
             <p>
-              Producing high-quality video edits and motion graphics for marketing campaigns,
-              product promotions, and personal branding content. Creating engaging
-              storytelling-driven videos, social media visuals, and brand-focused animations
-              for digital platforms and commercial projects.
+              Producing high-quality video edits and motion graphics for mortgage professionals, lenders,
+              and financial brands. Creating compelling marketing content for loan products, borrower
+              education, and lead generation campaigns. Crafting storytelling-driven videos, social media
+              visuals, and brand-focused animations that simplify complex mortgage concepts and build trust
+              across digital platforms.
             </p>
           </div>
         </div>
