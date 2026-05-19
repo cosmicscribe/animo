@@ -46,7 +46,7 @@ const Career = () => {
                 <h4>Video Editor & Motion Graphics Designer</h4>
                 <h5>Superkreatives</h5>
               </div>
-              <h3>NOW</h3>
+              <h3>Now</h3>
             </div>
             <p>
               Producing high-quality video edits and motion graphics for mortgage professionals, lenders,
